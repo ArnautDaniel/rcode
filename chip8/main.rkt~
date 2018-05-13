@@ -1,0 +1,12 @@
+#lang racket
+(require binaryio)
+(require file/sha1)
+
+(define (load-rom rom-file)
+  (let ((file (open-input-file rom-file)))
+    (let loop ((r (bytes->hex-string (read-bytes 2 file))))
+      (cond
+       ((eof-object? (peek-bytes 2 0 file))
+        (list r))
+       (else
+        (cons r (loop (bytes->hex-string (read-bytes 2 file)))))))))

@@ -5,4 +5,4 @@ In other words this repo is poorly written,  quite energetic (or insane), and an
 
 You could probably expect but not bet on seeing C, Scheme, or Forth alongside a number of inner-code comments that probably have nothing to do with the present situation.
 
-Seriously,  hit the back button.
+If any of these seem unappealing,  revolting, or generally unpleasant rest assured, it is.

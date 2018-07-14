@@ -7,4 +7,6 @@ You could probably expect but not bet on seeing Scheme, Forth, Prolog, Haskell, 
 
 If any of these seem unappealing,  revolting, or generally unpleasant rest assured, it is.
 
-Disclaimer:  This is my attempt at having some lighthearted fun.  A serious summary of this repo would be a place I can (hopefully) push and organize various work in.  I've chosen the 5 languages as the summary of my whirlwind tour through most of the languages in existence.  To me, these 5 mostly represent high quality in language design,  high provisioning of useful thought patterns,  and last but not least a functional bent.  If for some reason you're reading this repo,  try to take your businessman hat off and have a little fun working with relatively obscure languages (when compared to industry use).  
+# Disclaimer
+
+This is my attempt at having some lighthearted fun.  A serious summary of this repo would be a place I can (hopefully) push and organize various work in.  I've chosen the 5 languages as the summary of my whirlwind tour through most of the languages in existence.  To me, these 5 mostly represent high quality in language design,  high provisioning of useful thought patterns,  and last but not least a functional bent.  If for some reason you're reading this repo,  try to take your businessman hat off and have a little fun working with relatively obscure languages (when compared to industry use).  

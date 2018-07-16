@@ -159,7 +159,7 @@
 
 ;;; Not a big fan of the way I did this.  FIXME
 
-;;; [P10] - Run-length encoding of a list
+;;; [P10] - Run-length encoding of a list &
 ;;; [P11] - Modified run-length encoding
 
 (define (pnn-length-encoding lst map-lambda)
@@ -216,7 +216,6 @@
 ;;; or (x, 3) -> (x x x).  I did both but I'm sticking with the latter.
 
 ;;; [P16] - Drop every N'th element from a list
-
 ;;; [P17] - Split a list into two parts; the length of the first part is given
 
 (define (pnn-split lst n)
@@ -228,12 +227,24 @@
 
 (define (pnn-sublist lst n k)
   (define-values (lst0 lst1) (pnn-split lst n))
-  (define-values (lst2 lst3) (pnn-split lst1 k))
+  (define-values (lst2 lst3) (pnn-split lst1 (+ k 1)))
   lst2)
+;;; This one is pretty funky.  FIXME
 
 ;;; [P19] - Rotate a list N place to the left
 ;;; [P20] - Remove the K'th element from a list
+
+(define (pnn-remove-at lst n)
+  (append (take lst n)
+	  (drop lst (+ n 1))))
+
 ;;; [P21] - Insert an element at a given position into a list
+
+(define (pnn-insert lst elem n)
+  (append (take lst n)
+	  (cons elem
+		(drop lst n))))
+
 ;;; [P22] - Create a list containing all integers within a given range
 
 (define (pnn-range n k)
@@ -243,3 +254,36 @@
     (cons n (pnn-range (+ n 1) k)))))
 
 ;;; [P23] - Extract a given number of randomly selected elements from a list
+
+(define (pnn-random-select lst n)
+  (let loop ((len (length lst))
+	     (n n)
+	     (acc '())
+	     (lst lst))
+    (cond
+     ((= n 0) acc)
+     (else
+      (let ((rand (random len)))
+	(loop (- len 1) (- n 1)
+	      (cons (pnn-elem-at lst rand) acc)
+	      (pnn-remove-at lst rand)))))))
+
+;;;Explicit stack is interesting.
+
+;;; [P24] - Lotto: Draw N different random numbers from the set 1..M
+(define (pnn-lotto n k)
+  (let ((lotto-numbers (pnn-range 1 k)))
+    (pnn-random-select lotto-numbers n)))
+
+;;; [P25] - Generate a random permutation of the elements of a list
+
+(define (pnn-random-permutation lst)
+  (pnn-random-select lst (length lst)))
+
+;;; [P26] - Generate the combinations of K distinct objects chosen from
+;;; the N elements of a list
+
+;;; The astronaut problem
+
+;;; [P27] - Group the elements of a set into disjoint subsets
+;;; [P28] - Sorting a list of lists according to length of sublists

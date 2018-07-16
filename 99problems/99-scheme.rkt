@@ -216,3 +216,30 @@
 ;;; or (x, 3) -> (x x x).  I did both but I'm sticking with the latter.
 
 ;;; [P16] - Drop every N'th element from a list
+
+;;; [P17] - Split a list into two parts; the length of the first part is given
+
+(define (pnn-split lst n)
+  (let ((first-half (take lst n))
+	(second-half (drop lst n)))
+    (values first-half second-half)))
+
+;;; [P18] - Extract a slice from a list
+
+(define (pnn-sublist lst n k)
+  (define-values (lst0 lst1) (pnn-split lst n))
+  (define-values (lst2 lst3) (pnn-split lst1 k))
+  lst2)
+
+;;; [P19] - Rotate a list N place to the left
+;;; [P20] - Remove the K'th element from a list
+;;; [P21] - Insert an element at a given position into a list
+;;; [P22] - Create a list containing all integers within a given range
+
+(define (pnn-range n k)
+  (cond
+   ((= n k) '())
+   (else
+    (cons n (pnn-range (+ n 1) k)))))
+
+;;; [P23] - Extract a given number of randomly selected elements from a list

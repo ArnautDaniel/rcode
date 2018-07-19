@@ -216,6 +216,18 @@
 ;;; or (x, 3) -> (x x x).  I did both but I'm sticking with the latter.
 
 ;;; [P16] - Drop every N'th element from a list
+(define (pnn-drop-every lst n)
+  (let looper ((lst lst)
+	       (n0 (- n 1))
+	       (acc '()))
+    (cond
+     ((empty? lst) (reverse acc))
+     ((= n0 0) (looper (cdr lst) (- n 1) acc))
+     (else
+      (looper (cdr lst) (- n0 1) (cons (car lst) acc))))))
+
+;;;This is a really good one to think about better ways to do it ^
+
 ;;; [P17] - Split a list into two parts; the length of the first part is given
 
 (define (pnn-split lst n)
@@ -232,6 +244,22 @@
 ;;; This one is pretty funky.  FIXME
 
 ;;; [P19] - Rotate a list N place to the left
+
+(define (pnn-rotate lst n)
+  
+  (define (rotate lst0 n0)
+    (define-values (lst0 lst1) (pnn-split lst n))
+    (append lst1 lst0))
+
+  ;; Should probably have a let so (length lst) isn't computed
+  ;; twice
+  (if (< (length lst) n)
+      (pnn-rotate lst (- n (length lst)))
+      (rotate lst n)))
+
+;;;  Handle n > length lst by successively subtracting
+;;;  length of lst from n.  You could throw an error too.
+
 ;;; [P20] - Remove the K'th element from a list
 
 (define (pnn-remove-at lst n)
@@ -283,7 +311,50 @@
 ;;; [P26] - Generate the combinations of K distinct objects chosen from
 ;;; the N elements of a list
 
-;;; The astronaut problem
+(define (pnn-combination lst k)
+  (cond
+   ((empty? lst) '())
+   ((= k 1) (map list lst))
+   (else
+    (append (map (lambda (x) (cons (car lst) x))
+		 (pnn-combination (cdr lst) (- k 1)))
+	    (pnn-combination (cdr lst) k)))))
+
 
 ;;; [P27] - Group the elements of a set into disjoint subsets
 ;;; [P28] - Sorting a list of lists according to length of sublists
+
+;;; [P31] - Determine whether a given integer number is prime
+
+;;; Implementation translated from "The Haskell Road to Logic,
+;;; Maths and Programming", mostly since I find it a pretty
+;;; way to do it.
+
+(define (pnn-prime? n)
+
+  (define (divides? d n)
+    (= (remainder n d) 0))
+
+  (define (ld n)
+    (ldf 2 n))
+
+  (define (ldf k n)
+    (cond
+     ((divides? k n) k)
+     ((> (* k k) n) n)
+     (else
+      (ldf (+ k 1) n))))
+
+  (cond
+   ((< n 1) (error "Not a positive integer"))
+   ((= n 1) #f)
+   (else
+    (= (ld n) n))))
+
+;;; Other ways are of course to use something like Fermat's or
+;;; if you're feeling extra crazy using CPS with the Sieve of Eratosthenes
+;;; However, I'm not saying any of these are the best.
+
+;;; [P32] - Determine the greatest common divisor of two positive integer
+;;; numbers
+

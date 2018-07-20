@@ -358,3 +358,103 @@
 ;;; [P32] - Determine the greatest common divisor of two positive integer
 ;;; numbers
 
+(define (pnn-gcd n k)
+  (if (> k n)
+      (gcd k n)
+      (cond
+       ((= k 0) n)
+       (else
+	(gcd k (modulo n k))))))
+
+;;; [P33] - Determine wether two positive integer numbers are coprime
+
+(define (pnn-coprime? n k)
+  (if (= 1 (gcd n k))
+      #t
+      #f))
+
+;;; [P34] - Calculate Euler's totient function phi(m)
+
+(define (pnn-totient-phi n)
+  (if (> n 0)
+      (let loop ((k 2)
+		 (acc 1))
+	(cond
+	 ((= k n) acc)
+	 ((pnn-coprime? n k)
+	  (loop (+ k 1) (+ acc 1)))
+	 (else
+	  (loop (+ k 1) acc))))
+      (error "Not defined for negative numbers")))
+
+;;; Start at 2 since phi(1) = 1.  Probably much faster than
+;;; building a list with a range function and mapping over it
+
+;;; [P35] - Determine the prime factors of a given positive integer
+(define (pnn-prime-factors n)
+
+  (define (prime-factors n k)
+    (cond
+     ((= n 1) '())
+     ((= (modulo n 2) 0)
+      (cons 2 (prime-factors (/ n 2) 3)))
+     ((= (modulo n k) 0)
+      (cons k (prime-factors (/ n k) 3)))
+     (else
+      (prime-factors n (+ k 1)))))
+
+  (prime-factors n 3))
+
+;;; [P36] - Determine the prime factors of a give positive integer (2)
+;;; Construct a list containing the prime factors and their multiplicity
+
+(define (pnn-prime-encoding lst)
+  (pnn-length-encoding lst (lambda (x) (cons (car x) (list (length x))))))
+
+(define (pnn-prime-decoding lst)
+  (pnn-decode-list (map (lambda (k) (pnn-reverse0 k))
+		   lst)))
+
+(define (pnn-prime-factors-multi n)
+  (pnn-prime-encoding (pnn-prime-factors n)))
+
+;;; [P37] - Calculate Euler's totient function phi(m) (improved)
+
+(define (pnn-totient-phi-improved n)
+  
+  (define (phi-calculate p-pair)
+    (if (number? p-pair)
+	p-pair
+	(let ((p (car p-pair))
+	      (m (cadr p-pair)))
+	  (* (- p 1) (expt p (- m 1))))))
+  
+  (foldl (lambda (c k)
+	   (* (phi-calculate c) (phi-calculate k)))
+	 1 (pnn-prime-factors-multi n)))
+
+;;; [P38] - Compare the two methods of calculating Euler's totient function
+
+;;; (time (pnn-totient-phi 100900))
+;;; cpu time: 11
+
+;;; (time (pnn-totient-phi-improved 100900))
+;;; cpu time: 0
+
+;;; Direct math computation is obviously much faster than iteration
+
+;;; [P39] - A list of prime numbers
+
+(define (pnn-prime-list start end)
+  (cond
+   ((= start end) '())
+   ((pnn-prime? start)
+    (cons start (pnn-prime-list (+ start 1) end)))
+   (else
+    (pnn-prime-list (+ start 1) end))))
+
+;;; Improvements,  make it check odd numbers only
+;;; No TCO
+
+;;; [P40] - Goldbach's Conjecture
+

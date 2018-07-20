@@ -458,3 +458,27 @@
 
 ;;; [P40] - Goldbach's Conjecture
 
+(define (pnn-goldbach n)
+  
+  (let loop ((primes (pnn-prime-list 1 n))
+	     (acc '()))
+    (cond
+     ((empty? primes) acc)
+     ((pnn-prime? (- n (car primes)))
+      (if (= (- n (car primes)) (car primes))
+	  (loop (cdr primes) acc)
+	  (let ((prime0 (remove (- n (car primes)) primes)))
+	    (loop (cdr prime0)
+		  (cons (list (car primes) (- n (car primes))) acc)))))
+      (else
+       (loop (cdr primes) acc)))))
+;;; This version returns all possible goldbachs instead of just one as in
+;;; the example
+
+;;; [P41] - A list of Goldbach compositions
+(define (goldbach-list n k step)
+  (let ((elements (range n k step)))
+    (map pnn-goldbach elements)))
+
+;;; [P46] - Truth tables for logical expressions
+

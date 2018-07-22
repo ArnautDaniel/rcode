@@ -482,3 +482,21 @@
 
 ;;; [P46] - Truth tables for logical expressions
 
+;;; [P54] - Check whether a given term represents a binary tree
+;;; Either nil, (a nil nil) or (a b c)
+(define (atom? x)
+  (and (not (pair? x)) (not (null? x))))
+
+(define (istree ptree)
+  (cond
+   ((atom? ptree) #t)
+   ((equal? (first ptree) 'nil)
+    #t)
+   ((not (=  (length ptree) 3)) #f)
+   (else
+    (let
+	((left (second ptree))
+	 (right (third ptree)))
+      (and (istree left) (istree right))))))
+
+;;; [P55] - Contruct completely balanced binary trees

@@ -1,3 +1,6 @@
+// Copyright (C) 2018 Jack Lucas
+// Insertion Sort in C;  Iterative version
+
 #include <stdio.h>
 
 void insertion_sort (int* arr, int len);

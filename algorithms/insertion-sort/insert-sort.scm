@@ -1,3 +1,5 @@
+;;; Copyright (C) 2018 Jack Lucas
+;;; Insertion Sort in Guile Scheme
 
 (define (insertion-sort! lst)
   (let ((len (length lst))

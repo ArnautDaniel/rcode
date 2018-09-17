@@ -2,6 +2,7 @@
 ! See http://factorcode.org/license.txt for BSD license.
 ! These answers will probably take some time to turn
 ! into greek statues, but lumps of clay work for now.
+! All functions prepended with 99-*
 
 USING: kernel math sequences lists ;
 IN: 99-problems

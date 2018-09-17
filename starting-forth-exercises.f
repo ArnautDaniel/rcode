@@ -1,3 +1,6 @@
+\ (n, low, high -- )
+: my-within rot rot over < > and if ." WITHIN " else ." FALSE " then ;
+
 : card 20 > if ." You get alcohol! " else ." You don't get any alcohol! " then ;
 
 : sign.test

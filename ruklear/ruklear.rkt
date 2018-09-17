@@ -1,3 +1,8 @@
+;;; Copyright (C) 2018 Jack Lucas
+
+;;; Just a small perusing of the Racket FFI
+;;; compared to Chez Scheme
+
 #lang racket
 
 (require ffi/unsafe ffi/unsafe/define)

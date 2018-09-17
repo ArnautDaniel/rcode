@@ -1,3 +1,9 @@
+; Copyright (C) 2018 Jack Lucas
+; Uncommented code
+; Converts data about a show directory into
+; a "Catalogue" inspired by the ideas of Guix.
+; Unused at the moment, but works
+
 (use-modules (ice-9 rdelim))
 (use-modules (ice-9 ftw))
 (use-modules (ice-9 match))

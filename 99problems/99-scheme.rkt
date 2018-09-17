@@ -1,4 +1,7 @@
-;;;All functions will be prepended with pnn-*
+;;; Copyright (C) 2018 Jack Lucas
+;;; Racket version of 99 problems
+;;; Link to 99 problems in github directory
+;;; All functions will be prepended with pnn-*
 #lang racket
 ;;; [P01] -  Find the last element of a list.
 

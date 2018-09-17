@@ -1,3 +1,6 @@
+;;; Copyright (C) Jack Lucas
+;;; Merge Sort
+
 (use-modules (srfi srfi-1))
 
 (define (merge-sort lst)

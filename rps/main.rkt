@@ -1,3 +1,11 @@
+;;; Copyright (C) 2018 Jack Lucas
+
+;;; Rock-Paper-Scissors in Racket
+;;; Used as an excuse to try the graph
+;;; library.
+
+;;; Has a basic AI
+
 #lang racket
 (require graph)
 

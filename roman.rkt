@@ -1,3 +1,18 @@
+#| Copyright (C) 2018 Jack Lucas
+
+While trying to learn factor
+I thought it'd be instrumental to convert their
+compositional version of the Roman library into
+the familiar territory of scheme.
+
+Factor is pretty cool.  Infact, I dare say it's
+becoming my favorite langue very quickly.
+
+There's something impressive about the marriage
+of the functional and imperative paradigms.
+
+|#
+
 #lang racket
 
 (define roman-digits '("m" "cm" "d" "cd" "c" "xc" "l" "xl" "x" "ix" "v" "iv" "i"))

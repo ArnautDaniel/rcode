@@ -4,6 +4,9 @@
 #include<string.h>
 #include<sys/stat.h>
 #include<time.h>
+
+//Guestimate at character length for a path
+//will expand if more is needed.
 #define LEN 256
 int compare (const FTSENT**, const FTSENT**);
 
@@ -13,8 +16,9 @@ char* get_extension(char* node){
   return node+leng;
 }
 
+//Check if extension (i.e. .jpg) is in the path
 int proper_extension (FTSENT* node, char* k){
-  char* extension = get_extension(node->fts_name);
+  char* extension = strrchr (node->fts_name, '.');
   if (!(strcmp(extension, k))){
     return 1;
   }
@@ -22,10 +26,10 @@ int proper_extension (FTSENT* node, char* k){
 }
 
 /* Add a string to the 2d array in memory
-mall = the pointer to an array of pointers to char || char**
-ft_name is a pointer to a string
-size is a pointer to the current size of the mall array
-pos is the position in the array currently
+   mall = the pointer to an array of pointers to char || char**
+   ft_name is a pointer to a string
+   size is a pointer to the current size of the mall array
+   pos is the position in the array currently
 */
 void add_to_database(char** mall, char* ft_name, int* size, int* pos){
   if (pos == size){
@@ -33,6 +37,9 @@ void add_to_database(char** mall, char* ft_name, int* size, int* pos){
     for (int i = *size - 50; i < *size; i++){
       mall[i] = malloc((LEN+1) * sizeof(char));
     }
+  }
+  if (*ft_name == '\0'){
+    return;
   }
   if (strlen(ft_name) <= LEN){
     strcpy( mall[*pos], ft_name);
@@ -73,7 +80,7 @@ int main (int argc, char* const argv[]){
       case FTS_F:
 	for (int i = 2; i<argc; i++){
 	  if (proper_extension(node, argv[i])){
-	    add_to_database(store, node->fts_name, size, pos);
+	    add_to_database(store, node->fts_accpath, size, pos);
 	  }
 	}
 	break;
@@ -83,17 +90,22 @@ int main (int argc, char* const argv[]){
     }
     fts_close(file_system);
   }
-  time_t t;
-  srand((unsigned) time(&t));
-  int r = rand () % (*size-1);
-  char *file_pointer  = store[r];
+  /* time_t t; */
+  /* srand((unsigned) time(&t)); */
+  /* int r = rand () % (*size-1); */
+  /* char *file_pointer  = store[r]; */
   
-  while(*file_pointer == '\0'){
-    r = rand () % (*size-1);
-    file_pointer = store[r];
+  /* while(*file_pointer == '\0'){ */
+  /*   r = rand () % (*size-1); */
+  /*   file_pointer = store[r]; */
+  /* } */
+  FILE* file;
+
+  for (int i = 0; i < *pos; i++){
+    printf("%s\n", store[i]);
   }
   
-  printf("%s\n", file_pointer);
+  /* printf("%s\n", file_pointer); */
 
   return 0;
 }

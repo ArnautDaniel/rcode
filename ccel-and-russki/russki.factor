@@ -1,6 +1,6 @@
 ! Copyright (C) 2019 Jack Lucas
 ! See http://factorcode.org/license.txt for BSD license.
-USING: html.parser http.client kernel sequences html.parser.analyzer continuations prettyprint io io.pathnames io.directories namespaces io.files.info io.encodings.utf8 io.files io.encodings.8-bit  ;
+USING: html.parser http.client kernel sequences html.parser.analyzer continuations prettyprint io io.pathnames io.directories namespaces io.files.info io.encodings.utf8 io.files io.encodings.8-bit  io.launcher math.parser splitting ;
 IN: russki
 
 : get-title ( tag -- tag' )
@@ -18,7 +18,11 @@ IN: russki
 
 : only-djvu-links ( response -- response' )
     [ first "href" attribute file-extension "djvu" equal? ] filter
-    [ first get-href 0 2 rot subseq ".." equal? ] reject ;
+    ;
+
+: only-zip-links ( response -- response' )
+    [ first "href" attribute file-extension "zip" equal? ] filter
+    ;
 
 : find-russian-hyperlinks ( response -- response' )
     [ first "title" attribute? ] filter ;
@@ -35,11 +39,28 @@ IN: russki
     [ ] [ "khazarzar.skeptik.net/books/" swap append ] if ;
 
 : get-info ( tag -- title url )
-    dup get-title ".djvu" append swap get-href ;
+    dup get-title swap get-href ;
+
+: proper-title ( title url -- title url )
+    dup [ file-extension "." swap append append ] dip ;
+
+: add-quote-literals ( name -- name' )
+    "\"" swap append "\"" append ;
+
+: remove-extension ( name -- name' )
+    "." split1-last drop ;
+
+: download-zip-file ( title url -- )
+    2dup ?download-to 
+    swap drop dup 
+    "unzip -o " swap add-quote-literals append " -d " append
+    swap remove-extension add-quote-literals append
+    run-process drop ;
 
 : download-an-item ( title url -- )
-    make-proper-url
-    swap download-to ;
+    proper-title make-proper-url swap
+    [ file-extension "zip" equal? ] keep swap
+    [ download-zip-file ] [ ?download-to ] if ;
 
 : download-them-all ( response -- )
     [ first dup get-info rot russki-single-print
@@ -50,7 +71,8 @@ IN: russki
     current-directory get "/russki-books" append
     set-current-directory
     "khazarzar.skeptik.net/books"
-    russki-get find-russian-hyperlinks only-djvu-links
-    download-them-all ;
+    russki-get find-russian-hyperlinks [ only-djvu-links download-them-all ] keep
+    only-zip-links download-them-all
+    ;
     
 MAIN: russki-print
